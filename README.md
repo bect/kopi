@@ -112,12 +112,6 @@ You can change the list of radio stations by editing the `/data/radio.yaml` file
   website_url: "https://station-website.com"
 ```
 
-## Deployment
-
-This repository includes a GitHub Actions workflow in `.github/workflows/deploy.yml` that automatically builds the `exampleSite` and deploys it to GitHub Pages.
-
-To use it, go to your repository's **Settings > Pages** and set the **Source** to **GitHub Actions**.
-
 ## License
 
 This theme is licensed under the **MIT License**. See the LICENSE file for more details.
