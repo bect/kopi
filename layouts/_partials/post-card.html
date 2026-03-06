@@ -1,0 +1,70 @@
+{{ $page := .page }}
+{{ $class := .class }}
+{{ $featured := .featured | default false }}
+{{ $image := partial "func/GetImage.html" $page }}
+{{ $loading := .loading | default "lazy" }}
+{{ $priority := .priority | default "auto" }}
+
+{{/* Dynamic Summary Length based on Title Length */}}
+{{ $titleLen := len $page.Title }}
+{{ $textOnlyLen := 300 }}
+{{ if gt $titleLen 70 }}
+    {{ $textOnlyLen = 220 }}
+{{ else if gt $titleLen 35 }}
+    {{ $textOnlyLen = 260 }}
+{{ end }}
+
+<article class="post-card {{ if not $image }}text-only{{ end }} {{ $class }}">
+    {{ if $image }}
+        {{ if eq $image.MediaType.SubType "svg" }}
+            <img src="{{ $image.RelPermalink }}" class="post-image" alt="{{ $page.Title }}" loading="{{ $loading }}" fetchpriority="{{ $priority }}" decoding="async" width="{{ $image.Width }}" height="{{ $image.Height }}">
+        {{ else }}
+            {{ $tiny_w := $image.Fill "400x250 smart webp" }}
+            {{ $small_w := $image.Fill "600x375 smart webp" }}
+            {{ $medium_w := $image.Fill "800x500 smart webp" }}
+            {{ $large_w := $image.Fill "1200x750 smart webp" }}
+            
+            {{ $tiny := $image.Fill "400x250 smart" }}
+            {{ $small := $image.Fill "600x375 smart" }}
+            {{ $medium := $image.Fill "800x500 smart" }}
+            {{ $large := $image.Fill "1200x750 smart" }}
+            
+            {{ $sizes := "(max-width: 768px) calc(100vw - 2rem), 50vw" }}
+            {{ if $featured }}
+                {{ $sizes = "(max-width: 768px) calc(100vw - 2rem), 100vw" }}
+            {{ end }}
+            <picture>
+                <source srcset="{{ $tiny_w.RelPermalink }} 400w, {{ $small_w.RelPermalink }} 600w, {{ $medium_w.RelPermalink }} 800w, {{ $large_w.RelPermalink }} 1200w" type="image/webp" sizes="{{ $sizes }}">
+                <img src="{{ $medium.RelPermalink }}" srcset="{{ $tiny.RelPermalink }} 400w, {{ $small.RelPermalink }} 600w, {{ $medium.RelPermalink }} 800w, {{ $large.RelPermalink }} 1200w" sizes="{{ $sizes }}" class="post-image" alt="{{ $page.Title }}" loading="{{ $loading }}" fetchpriority="{{ $priority }}" decoding="async" width="{{ $medium.Width }}" height="{{ $medium.Height }}">
+            </picture>
+        {{ end }}
+    {{ end }}
+    <div class="post-content">
+        <div class="post-meta" {{ if $featured }}style="color: var(--accent);"{{ end }}>{{ $page.Date.Format "Jan 02, 2006" }}</div>
+        <h2 class="post-title" {{ if $featured }}style="font-size: 2.5rem; letter-spacing: -0.03em;"{{ end }}><a href="{{ $page.RelPermalink }}">{{ $page.Title }}</a></h2>
+        {{ if not $image }}
+        <p class="post-excerpt" {{ if $featured }}style="font-size: 1.2rem; line-height: 1.6;"{{ end }}>
+            {{ $page.Content | plainify | truncate $textOnlyLen }}
+        </p>
+        {{ end }}
+        <div class="post-footer" {{ if $featured }}style="margin-top: 1.5rem; width: 100%;"{{ end }}>
+            <a href="{{ $page.RelPermalink }}" class="btn" style="border:none; padding-left:0; color:{{ if $featured }}var(--text-main){{ else }}var(--accent){{ end }};{{ if $featured }} font-weight: 700;{{ end }}">
+                {{ if $featured }}Read Full Story →{{ else }}Read Article →{{ end }}
+            </a>
+            <div class="post-actions" {{ if $featured }}style="margin-left: auto;"{{ end }}>
+                <button class="btn-icon-action btn-bookmark" 
+                    data-url="{{ $page.Permalink | absURL }}" 
+                    data-title="{{ $page.Title }}" 
+                    data-date="{{ $page.Date.Format "Jan 02, 2006" }}"
+                    data-summary="{{ $page.Summary | plainify | truncate 120 }}"
+                    {{ if $image }}data-image="{{ $image.RelPermalink }}"{{ end }}
+                    aria-label="Save for later">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                </button>
+                <button class="btn-icon-action btn-share-native" data-title="{{ $page.Title }}" data-url="{{ $page.Permalink | absURL }}" aria-label="Share this post">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</article>

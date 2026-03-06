@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="{{ or .Site.Language.LanguageCode .Site.Language.Lang }}">
+<head>
+    {{ partial "head.html" . }}
+</head>
+<body>
+    {{ partial "header.html" . }}
+
+    <div class="main-wrapper">
+        <div class="container">
+            {{ block "main" . }}{{ end }}
+        </div>
+    </div>
+
+    {{ partial "footer.html" . }}
+    
+    {{ if .Store.Get "hasMermaid" }}
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+
+        const getTheme = () => document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'neutral';
+
+        mermaid.initialize({ startOnLoad: false, theme: getTheme() });
+
+        document.querySelectorAll('.mermaid').forEach(el => {
+            el.setAttribute('data-source', el.textContent);
+        });
+
+        await mermaid.run({ querySelector: '.mermaid' });
+
+        new MutationObserver(async (mutations) => {
+            if (mutations.some(m => m.attributeName === 'data-theme')) {
+                mermaid.initialize({ startOnLoad: false, theme: getTheme() });
+                document.querySelectorAll('.mermaid').forEach(el => {
+                    el.removeAttribute('data-source');
+                    el.textContent = el.getAttribute('data-source');
+                });
+                await mermaid.run({ querySelector: '.mermaid' });
+            }
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    </script>
+    {{ end }}
+
+</body>
+</html>

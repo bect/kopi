@@ -1,0 +1,69 @@
+/* --- Article Images --- */
+.article-body {
+    .article-image {
+        margin: 2.5rem 0;
+        display: block;
+        text-align: center;
+
+        img {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            cursor: zoom-in;
+        }
+
+        figcaption {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: center;
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.5;
+            font-style: italic;
+        }
+    }
+}
+
+[data-theme="dark"] .article-body .article-image img {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+[data-theme="dark"] .article-body .article-image img:hover {
+    opacity: 1;
+}
+
+/* Lightbox */
+.lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    cursor: zoom-out;
+}
+
+.lightbox-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-image {
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 4px;
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.lightbox-overlay.active .lightbox-image {
+    transform: scale(1);
+}

@@ -1,0 +1,62 @@
+{{ if site.Home.OutputFormats.Get "RADIO" }}
+<!-- Radio Widget -->
+{{ $stations := site.Data.radio }}
+{{ $firstStation := index $stations 0 }}
+<div class="widget">
+    <div class="widget-radio" id="radioWidget">
+        <!-- Background visualizer -->
+        <canvas id="radioCanvas" class="radio-bg-visualizer" width="200" height="100"></canvas>
+
+
+
+        <!-- Radio Controls - Flexbox Layout -->
+        <div class="radio-controls-container">
+            <!-- Top row -->
+            <div class="radio-top-row">
+                <div class="radio-status-display" id="radioStatusDisplay">
+                    <span class="live-dot"></span>
+                    <span>READY</span>
+                </div>
+
+                <div class="radio-station-title">
+                    {{ $firstStation.title | default "Loading Station..." }}
+                </div>
+
+                <div class="radio-controls-group">
+                    <button class="btn-radio-play btn-transparent" id="radioPlayBtn">
+                        <svg class="icon-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <svg class="icon-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                    </button>
+
+                    <button class="btn-radio-cycle btn-transparent" id="btnCycleStation" aria-label="Next Station" title="Next Station">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 4 15 12 5 20 5 4"></polygon><rect x="19" y="5" width="2" height="14"></rect></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bottom row -->
+            <div class="radio-bottom-row">
+                <div class="radio-volume-inline">
+                    <button class="btn-radio-volume btn-transparent" id="btnVolume" aria-label="Volume">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                    </button>
+                    <div class="volume-popup">
+                        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" aria-label="Volume Slider">
+                    </div>
+                </div>
+
+                <div class="radio-station-desc">
+                    {{ $firstStation.description | default "Please wait..." }}
+                </div>
+            </div>
+        </div>
+
+
+
+        <audio id="radioAudio" preload="none"></audio>
+    </div>
+</div>
+{{ end }}

@@ -1,0 +1,31 @@
+{{ define "main" }}
+<!-- Breadcrumb Navigation -->
+{{ partial "breadcrumb.html" . }}
+
+{{ partial "tag-filter.html" . }}
+
+<div class="content-grid">
+    <main class="blog-feed">
+        <div class="span-col-2">
+            <h1 class="post-title" style="margin-bottom: 2rem;">{{ .Title }}</h1>
+            {{ with .Content }}<div class="article-body" style="margin-bottom: 3rem;">{{ . }}</div>{{ end }}
+        </div>
+
+        <!-- Post Loop -->
+        {{ range $index, $page := .Paginator.Pages }}
+            {{ if and (eq $.Paginator.PageNumber 1) (eq $index 0) }}
+                {{ partial "post-card.html" (dict "page" . "loading" "eager" "priority" "high") }}
+            {{ else }}
+                {{ partial "post-card.html" (dict "page" .) }}
+            {{ end }}
+        {{ end }}
+        
+        <!-- Pagination -->
+        {{ partial "pagination.html" . }}
+    </main>
+
+    <div id="persistent-sidebar" data-turbo-permanent>
+        {{ partial "sidebar.html" . }}
+    </div>
+</div>
+{{ end }}

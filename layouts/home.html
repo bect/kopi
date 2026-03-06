@@ -1,0 +1,36 @@
+{{ define "main" }}
+<!-- Top Leaderboard Ad -->
+<!-- <div class="ad-placeholder ad-leaderboard">
+    <div>
+        <span class="ad-label">Advertisement</span>
+        Google AdSense Leaderboard (728x90)
+    </div>
+</div> -->
+
+{{ partial "tag-filter.html" . }}
+
+<div class="content-grid">
+    <main class="blog-feed">
+        
+        {{ $paginator := .Paginator }}
+        {{ range $index, $page := $paginator.Pages }}
+            {{ if and (eq $paginator.PageNumber 1) (eq $index 0) }}
+            <!-- Featured Post (First Item of First Page) -->
+            {{ partial "post-card.html" (dict "page" . "featured" true "class" "span-col-2" "loading" "eager" "priority" "high") }}
+            {{ else if and (eq $paginator.PageNumber 1) (eq $index 5) }}
+            <!-- Secondary Featured Post (6th Item) -->
+            {{ partial "post-card.html" (dict "page" . "featured" true "class" "span-col-2") }}
+            {{ else }}
+            <!-- Standard Post -->
+            {{ partial "post-card.html" (dict "page" .) }}
+            {{ end }}
+        {{ end }}
+        
+        <!-- Pagination -->
+        {{ partial "pagination.html" . }}
+    </main>
+    <div id="persistent-sidebar" data-turbo-permanent>
+        {{ partial "sidebar.html" . }}
+    </div>
+</div>
+{{ end }}

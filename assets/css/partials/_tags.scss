@@ -1,0 +1,139 @@
+/* --- Tags & Filters --- */
+
+/* Reusable Pill Component */
+.pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 99px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    gap: 8px;
+    line-height: 1.2;
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* Sizes */
+.pill-sm { 
+    padding: 6px 16px; 
+    font-size: 0.8rem; 
+
+    /* Adjust padding when badge is present */
+    &:has(.pill-badge), &:has(.tag-count) { padding-right: 6px; padding-left: 12px; }
+}
+.pill-md { 
+    padding: 6px 16px; 
+    font-size: 0.85rem; 
+    &:has(.pill-badge), &:has(.tag-count) { padding-right: 6px; padding-left: 12px; }
+}
+.pill-lg { 
+    padding: 8px 20px; 
+    font-size: 1rem; 
+    &:has(.pill-badge), &:has(.tag-count) { padding-right: 8px; padding-left: 16px; }
+}
+
+/* Variants */
+.pill-outline {
+    border-color: var(--border);
+    color: var(--text-muted);
+
+    &:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background-color: rgba(37, 99, 235, 0.05);
+    }
+    
+    &.active {
+        background-color: var(--text-main);
+        color: var(--bg-body);
+        border-color: var(--text-main);
+    }
+}
+
+.pill-solid {
+    background-color: var(--text-main);
+    color: var(--bg-body);
+    border-color: var(--text-main);
+    &:hover { opacity: 0.9; }
+}
+
+.pill-accent {
+    background-color: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+    &:hover { opacity: 0.9; }
+}
+
+.pill-ghost {
+    color: var(--text-muted);
+    &:hover { background-color: rgba(0,0,0,0.05); color: var(--text-main); }
+}
+
+/* Badge Support */
+.pill-badge {
+    background-color: var(--border);
+    color: var(--text-muted);
+    font-size: 0.75em;
+    padding: 2px 6px;
+    border-radius: 10px;
+    line-height: 1;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .pill-badge {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Badge Contextual Hover Effects */
+.pill-outline:hover .pill-badge {
+    background-color: var(--accent);
+    color: #ffffff;
+}
+
+.pill-outline.active .pill-badge {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+}
+
+/* --- Widget Implementations --- */
+
+/* Tags Cloud Widget */
+.widget-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Legacy Mapping */
+.tag-pill {
+    @extend .pill;
+    @extend .pill-sm;
+    @extend .pill-outline;
+}
+
+.tag-count {
+    @extend .pill-badge;
+}
+
+/* Tag Filters (Scrollable) */
+.tag-scroll-container {
+    display: flex; align-items: center; gap: 0.75rem;
+    overflow-x: auto; white-space: nowrap; padding-bottom: 1rem;
+    margin-bottom: 2rem; scrollbar-width: none; -ms-overflow-style: none;
+    border-bottom: 1px solid var(--border); padding-top: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+}
+.tag-scroll-container::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+    @extend .pill;
+    @extend .pill-md;
+    @extend .pill-outline;
+    flex-shrink: 0;
+}

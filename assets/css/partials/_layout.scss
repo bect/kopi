@@ -1,0 +1,71 @@
+/* --- Layout & Grid --- */
+.container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+}
+
+.main-wrapper {
+    padding: var(--space-lg) 0;
+    min-height: 80vh;
+}
+
+/* Default: Single Column Stack */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+}
+
+/* Desktop: Two Columns */
+@media (min-width: 900px) {
+    .content-grid {
+        grid-template-columns: 1fr 300px; 
+        gap: 4rem;
+        align-items: start;
+    }
+}
+
+/* --- Blog Feed (Mobile First) --- */
+.blog-feed {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+}
+
+/* Desktop: Mixed Grid */
+@media (min-width: 768px) {
+    .blog-feed {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem 2rem;
+    }
+}
+
+/* Helper: Full Width */
+.span-col-2 {
+    grid-column: span 1;
+}
+
+@media (min-width: 768px) {
+    .span-col-2 {
+        grid-column: span 2;
+    }
+}
+
+/* --- Sidebar --- */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (min-width: 900px) {
+    .sidebar {
+        gap: 3rem;
+        margin-top: 0;
+        position: sticky;
+        top: 85px;
+    }
+}

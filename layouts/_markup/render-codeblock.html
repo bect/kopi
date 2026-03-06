@@ -1,0 +1,27 @@
+{{ $isMermaid := eq .Type "mermaid" }}
+{{ $gid := .Inner | hash.FNV32a }}
+
+{{ if $isMermaid }}
+{{ .Page.Store.Set "hasMermaid" true }}
+<div class="code-block-wrapper mermaid-tabs">
+    <div class="code-block-header">
+        <button class="mermaid-tab-header active" data-tab="mermaid-{{ $gid }}-diagram">Diagram</button>
+        <button class="mermaid-tab-header" data-tab="mermaid-{{ $gid }}-source">Source</button>
+        <button class="copy-code-btn">Copy</button>
+    </div>
+    <div id="mermaid-{{ $gid }}-diagram" class="mermaid-tab-content active">
+        <div class="mermaid">{{ .Inner | safeHTML }}</div>
+    </div>
+    <div id="mermaid-{{ $gid }}-source" class="mermaid-tab-content">
+        {{ transform.Highlight .Inner "mermaid" }}
+    </div>
+</div>
+{{ else }}
+<div class="code-block-wrapper">
+    <div class="code-block-header">
+        <span class="code-lang">{{ .Type | default "text" }}</span>
+        <button class="copy-code-btn">Copy</button>
+    </div>
+    {{ transform.Highlight .Inner .Type }}
+</div>
+{{ end }}

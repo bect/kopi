@@ -1,0 +1,57 @@
+baseURL: 'http://example.com/'
+languageCode: 'en-US'
+title: 'Kopi'
+theme: 'kopi'
+params:
+  subtitle: 'Hanya Catatan Seorang cah Nggunung'
+  author:
+    name: "Bect"
+    bio: "Menulis tentang web, kode, dan pengalaman belajar sehari-hari."
+    link: "#"
+    role: "Cah Nggunung"
+
+menus:
+  main:
+    - name: 'Home'
+      pageRef: '/'
+      weight: 10
+    - name: 'Topics'
+      identifier: 'topics'
+      url: '#'
+      weight: 20
+    - name: 'Hugo'
+      parent: 'topics'
+      url: '/hugo'
+      weight: 10
+    - name: 'About'
+      url: '#'
+      weight: 30
+
+module:
+  hugoVersion:
+    extended: true
+    min: '0.146.0'
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+mediaTypes:
+  application/radio+json:
+    suffixes:
+      - json
+
+outputFormats:
+  RADIO:
+    mediaType: application/radio+json
+    baseName: radio
+    isPlainText: true
+    notAlternative: true
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+    - RADIO

@@ -1,0 +1,32 @@
+<header class="site-header">
+    <div class="header-inner">
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+
+        <a href="{{ .Site.Home.RelPermalink }}" class="logo">{{ .Site.Title }}</a>
+
+        <nav>
+            <ul class="nav-links" id="navLinks">
+                {{ range .Site.Menus.main }}
+                    {{ if .HasChildren }}
+                    <li class="dropdown">
+                        <a href="{{ .URL }}" class="dropdown-toggle">{{ .Name }}</a> 
+                        <ul class="dropdown-menu">
+                            {{ range .Children }}
+                            <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+                            {{ end }}
+                        </ul>
+                    </li>
+                    {{ else }}
+                    <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+                    {{ end }}
+                {{ end }}
+            </ul>
+        </nav>
+
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode" style="background:none; border:none; cursor:pointer; color:var(--text-main); padding: 5px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+    </div>
+</header>

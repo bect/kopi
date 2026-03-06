@@ -1,0 +1,49 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Summary }}{{ end }}">
+<title>{{ if .IsHome }}{{ .Site.Title }} - {{.Site.Params.subtitle}} {{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
+<link rel="canonical" href="{{ .Permalink }}">
+<link rel="manifest" href="{{ "manifest.json" | relURL }}">
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#18181b" media="(prefers-color-scheme: dark)">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Summary | plainify }}{{ end }}">
+{{ $image := partial "func/GetImage.html" . }}{{ if $image }}<meta property="og:image" content="{{ $image.Permalink }}">{{ end }}
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="{{ .Permalink }}">
+<meta property="twitter:title" content="{{ .Title }}">
+<meta property="twitter:description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Summary | plainify }}{{ end }}">
+{{ if $image }}<meta property="twitter:image" content="{{ $image.Permalink }}">{{ end }}
+
+{{ partial "head/json-ld.html" . }}
+
+{{ $css := resources.Get "css/main.scss" | toCSS | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+
+{{ $js := resources.Get "js/main.js" | js.Build (dict "minify" true) | fingerprint }}
+<script type="module" src="{{ $js.RelPermalink }}"></script>
+
+{{ $swOpts := dict "css" $css.RelPermalink "js" $js.RelPermalink }}
+{{ $sw := resources.Get "js/sw.js" | resources.ExecuteAsTemplate "/sw.js" $swOpts | js.Build (dict "minify" true) }}
+<!-- make sure hugo compiles and includes it in the output folder
+    {{ dict "serviceWorker" $sw.Permalink }} -->
+
+
+<script>
+    (function() {
+        const getPreferredTheme = () => {
+            const storedTheme = localStorage.getItem('theme');
+            if (storedTheme) return storedTheme;
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        };
+        document.documentElement.setAttribute('data-theme', getPreferredTheme());
+    })();
+</script>

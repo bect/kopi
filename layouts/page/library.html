@@ -1,0 +1,22 @@
+{{ define "main" }}
+<!-- Breadcrumb Navigation -->
+<div class="breadcrumb">
+    <a href="{{ .Site.Home.RelPermalink }}">Home</a> / <span>{{ .Title }}</span>
+</div>
+
+<div class="content-grid">
+    <main class="blog-feed">
+        <div class="span-col-2">
+            <h1 class="post-title" style="margin-bottom: 1rem;">{{ .Title }}</h1>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Articles you've saved for later reading. These are available offline.</p>
+        </div>
+
+        <!-- Library Container (Populated by JS) -->
+        <div id="library-container" style="display: contents;"></div>
+    </main>
+
+    <div id="persistent-sidebar" data-turbo-permanent>
+        {{ partial "sidebar.html" . }}
+    </div>
+</div>
+{{ end }}

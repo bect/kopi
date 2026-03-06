@@ -1,0 +1,69 @@
+{{- /*
+    Image Render Hook
+    This template overrides the default Markdown image rendering.
+    It creates a responsive <picture> element with WebP sources and a fallback JPEG/PNG.
+    It also adds lazy loading and proper dimensions to prevent layout shift.
+
+    Usage in Markdown: ![Alt Text](/path/to/image.jpg "Optional Title")
+*/ -}}
+
+{{- $src := .Destination -}}
+{{- $alt := .Text | plainify -}}
+{{- $title := .Title | plainify -}}
+
+{{- if or (strings.HasPrefix $src "http://") (strings.HasPrefix $src "https://") -}}
+    {{- /* Handle external images */ -}}
+    <figure class="article-image">
+        <img src="{{ $src | safeURL }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}"{{ end }} loading="lazy" decoding="async" class="zoomable" data-full-url="{{ $src | safeURL }}">
+        {{- if $title -}}
+            <figcaption>{{ $title }}</figcaption>
+        {{- end -}}
+    </figure>
+{{- else -}}
+    {{- /* Handle local images (Page or Global Resources) */ -}}
+    {{- $image := "" -}}
+    {{- if strings.HasPrefix $src "/" -}}
+        {{- $image = resources.Get (strings.TrimPrefix "/" $src) -}}
+    {{- else -}}
+        {{- $image = .Page.Resources.GetMatch $src -}}
+    {{- end -}}
+
+    {{- if not $image -}}
+        {{- /* Fallback for local images not found in resources (e.g., in /static) */ -}}
+        <figure class="article-image">
+            <img src="{{ $src | safeURL }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}"{{ end }} loading="lazy" decoding="async" class="zoomable" data-full-url="{{ $src | safeURL }}">
+            {{- if $title -}}
+                <figcaption>{{ $title }}</figcaption>
+            {{- end -}}
+        </figure>
+    {{- else -}}
+        {{- /* Process local resources to create responsive <picture> element */ -}}
+        {{- $widths := slice 480 800 1200 -}}
+
+        {{- /* Generate WebP sources */ -}}
+        {{- $webp_sources := slice -}}
+        {{- range $widths -}}
+            {{- $resized := $image.Resize (printf "%dx" .) -}}
+            {{- $webp := $resized.Process "webp" -}}
+            {{- $webp_sources = $webp_sources | append (printf "%s %dw" $webp.RelPermalink .) -}}
+        {{- end -}}
+
+        {{- /* Generate original format sources (e.g., JPEG, PNG) */ -}}
+        {{- $orig_sources := slice -}}
+        {{- range $widths -}}
+            {{- $resized := $image.Resize (printf "%dx" .) -}}
+            {{- $orig_sources = $orig_sources | append (printf "%s %dw" $resized.RelPermalink .) -}}
+        {{- end -}}
+
+        <figure class="article-image">
+            <picture>
+                <source type="image/webp" srcset="{{ delimit $webp_sources ", " }}">
+                <source type="{{ $image.MediaType }}" srcset="{{ delimit $orig_sources ", " }}">
+                <img src="{{ ($image.Resize "800x").RelPermalink }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}"{{ end }} width="{{ $image.Width }}" height="{{ $image.Height }}" loading="lazy" decoding="async" class="zoomable" data-full-url="{{ $image.RelPermalink }}">
+            </picture>
+            {{- if $title -}}
+                <figcaption>{{ $title }}</figcaption>
+            {{- end -}}
+        </figure>
+    {{- end -}}
+{{- end -}}

@@ -1,0 +1,16 @@
+{{ define "main" }}
+<div class="content-grid">
+    <main>
+        <div style="text-align: center; padding: 4rem 0;">
+            <h1 style="font-size: 4rem; margin-bottom: 0.5rem; color: var(--text-main);">404</h1>
+            <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--text-muted); font-weight: normal;">Page Not Found</h2>
+            <p style="margin-bottom: 2rem;">The page you are looking for does not exist or has been moved.</p>
+            <a href="{{ .Site.BaseURL }}" class="btn" style="display: inline-block; padding: 0.75rem 1.5rem; background: var(--accent); color: white; text-decoration: none; border-radius: 0.25rem;">Go Home</a>
+        </div>
+    </main>
+
+    <div id="persistent-sidebar" data-turbo-permanent>
+        {{ partial "sidebar.html" . }}
+    </div>
+</div>
+{{ end }}

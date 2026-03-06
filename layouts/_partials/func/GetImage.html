@@ -1,0 +1,20 @@
+{{- /*
+    Find an image resource for the card.
+    Priority:
+    1. A page-level resource matching "featured.*" or "cover.*".
+    2. An image path specified in the front matter's `image` parameter (relative to /assets).
+    3. The first image resource found in the page bundle as a fallback.
+*/ -}}
+{{- $imageRes := "" -}}
+{{- with .Resources.GetMatch "{featured,cover}*.{jpg,jpeg,png,webp}" -}}
+    {{- $imageRes = . -}}
+{{- else -}}
+    {{- with .Params.image -}}
+        {{- $imageRes = resources.Get . -}}
+    {{- else -}}
+        {{- with .Resources.ByType "image" | first 1 -}}
+            {{- $imageRes = index . 0 -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- return $imageRes -}}

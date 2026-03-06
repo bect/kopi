@@ -1,0 +1,49 @@
+/* --- CSS Variables --- */
+:root {
+    /* Modern Minimalist Palette */
+    --bg-body: #ffffff;
+    --bg-card: #ffffff;
+    --bg-nav: #ffffff;
+    --text-main: #18181b; /* Zinc-900 */
+    --text-muted: #71717a; /* Zinc-500 */
+    --accent: #2563eb; /* Modern Blue */
+    --border: #e4e4e7; /* Zinc-200 */
+    
+    /* Spacing - Mobile First Defaults */
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 2rem;
+    
+    /* UI Consistency */
+    --radius-container: 12px;
+    --radius-element: 8px;
+    
+    /* Layout */
+    --max-width: 1200px;
+    --header-height: 65px;
+}
+
+/* Mixins */
+$breakpoint-md: 768px;
+
+@mixin md {
+    @media (min-width: $breakpoint-md) { @content; }
+}
+
+/* Desktop Spacing Overrides */
+@include md {
+    :root {
+        --space-md: 1.5rem;
+        --space-lg: 3rem;
+    }
+}
+
+[data-theme="dark"] {
+    --bg-body: #09090b; /* Zinc-950 */
+    --bg-card: #09090b;
+    --bg-nav: #09090b;
+    --text-main: #f4f4f5; /* Zinc-100 */
+    --text-muted: #a1a1aa; /* Zinc-400 */
+    --accent: #60a5fa; /* Lighter Blue */
+    --border: #27272a; /* Zinc-800 */
+}

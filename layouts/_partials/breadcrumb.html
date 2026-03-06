@@ -1,0 +1,43 @@
+<div class="breadcrumb">
+    <a href="{{ .Site.Home.RelPermalink }}">Home</a>
+    {{ range .Ancestors.Reverse }}
+        {{ if not .IsHome }}
+        / <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+        {{ end }}
+    {{ end }}
+    / <span>{{ .Title }}</span>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ .Site.Home.Permalink }}"
+    }
+    {{- $position := 1 -}}
+    {{- range .Ancestors.Reverse -}}
+        {{- if not .IsHome -}}
+        {{- $position = add $position 1 -}}
+        ,{
+          "@type": "ListItem",
+          "position": {{ $position }},
+          "name": {{ .LinkTitle | jsonify }},
+          "item": "{{ .Permalink }}"
+        }
+        {{- end -}}
+    {{- end -}}
+    {{- $position = add $position 1 -}}
+    ,{
+      "@type": "ListItem",
+      "position": {{ $position }},
+      "name": {{ .Title | jsonify }},
+      "item": "{{ .Permalink }}"
+    }
+  ]
+}
+</script>
