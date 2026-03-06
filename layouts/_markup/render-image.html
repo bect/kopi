@@ -45,21 +45,21 @@
         {{- range $widths -}}
             {{- $resized := $image.Resize (printf "%dx" .) -}}
             {{- $webp := $resized.Process "webp" -}}
-            {{- $webp_sources = $webp_sources | append (printf "%s %dw" $webp.RelPermalink .) -}}
+            {{- $webp_sources = $webp_sources | append (printf "%s %dw" $webp.Permalink .) -}}
         {{- end -}}
 
         {{- /* Generate original format sources (e.g., JPEG, PNG) */ -}}
         {{- $orig_sources := slice -}}
         {{- range $widths -}}
             {{- $resized := $image.Resize (printf "%dx" .) -}}
-            {{- $orig_sources = $orig_sources | append (printf "%s %dw" $resized.RelPermalink .) -}}
+            {{- $orig_sources = $orig_sources | append (printf "%s %dw" $resized.Permalink .) -}}
         {{- end -}}
 
         <figure class="article-image">
             <picture>
                 <source type="image/webp" srcset="{{ delimit $webp_sources ", " }}">
                 <source type="{{ $image.MediaType }}" srcset="{{ delimit $orig_sources ", " }}">
-                <img src="{{ ($image.Resize "800x").RelPermalink }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}"{{ end }} width="{{ $image.Width }}" height="{{ $image.Height }}" loading="lazy" decoding="async" class="zoomable" data-full-url="{{ $image.RelPermalink }}">
+                <img src="{{ ($image.Resize "800x").Permalink }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}"{{ end }} width="{{ $image.Width }}" height="{{ $image.Height }}" loading="lazy" decoding="async" class="zoomable" data-full-url="{{ $image.Permalink }}">
             </picture>
             {{- if $title -}}
                 <figcaption>{{ $title }}</figcaption>

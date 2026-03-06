@@ -17,7 +17,7 @@
 <article class="post-card {{ if not $image }}text-only{{ end }} {{ $class }}">
     {{ if $image }}
         {{ if eq $image.MediaType.SubType "svg" }}
-            <img src="{{ $image.RelPermalink }}" class="post-image" alt="{{ $page.Title }}" loading="{{ $loading }}" fetchpriority="{{ $priority }}" decoding="async" width="{{ $image.Width }}" height="{{ $image.Height }}">
+            <img src="{{ $image.Permalink }}" class="post-image" alt="{{ $page.Title }}" loading="{{ $loading }}" fetchpriority="{{ $priority }}" decoding="async" width="{{ $image.Width }}" height="{{ $image.Height }}">
         {{ else }}
             {{ $tiny_w := $image.Fill "400x250 smart webp" }}
             {{ $small_w := $image.Fill "600x375 smart webp" }}
@@ -34,21 +34,21 @@
                 {{ $sizes = "(max-width: 768px) calc(100vw - 2rem), 100vw" }}
             {{ end }}
             <picture>
-                <source srcset="{{ $tiny_w.RelPermalink }} 400w, {{ $small_w.RelPermalink }} 600w, {{ $medium_w.RelPermalink }} 800w, {{ $large_w.RelPermalink }} 1200w" type="image/webp" sizes="{{ $sizes }}">
-                <img src="{{ $medium.RelPermalink }}" srcset="{{ $tiny.RelPermalink }} 400w, {{ $small.RelPermalink }} 600w, {{ $medium.RelPermalink }} 800w, {{ $large.RelPermalink }} 1200w" sizes="{{ $sizes }}" class="post-image" alt="{{ $page.Title }}" loading="{{ $loading }}" fetchpriority="{{ $priority }}" decoding="async" width="{{ $medium.Width }}" height="{{ $medium.Height }}">
+                <source srcset="{{ $tiny_w.Permalink }} 400w, {{ $small_w.Permalink }} 600w, {{ $medium_w.Permalink }} 800w, {{ $large_w.Permalink }} 1200w" type="image/webp" sizes="{{ $sizes }}">
+                <img src="{{ $medium.Permalink }}" srcset="{{ $tiny.Permalink }} 400w, {{ $small.Permalink }} 600w, {{ $medium.Permalink }} 800w, {{ $large.Permalink }} 1200w" sizes="{{ $sizes }}" class="post-image" alt="{{ $page.Title }}" loading="{{ $loading }}" fetchpriority="{{ $priority }}" decoding="async" width="{{ $medium.Width }}" height="{{ $medium.Height }}">
             </picture>
         {{ end }}
     {{ end }}
     <div class="post-content">
         <div class="post-meta" {{ if $featured }}style="color: var(--accent);"{{ end }}>{{ $page.Date.Format "Jan 02, 2006" }}</div>
-        <h2 class="post-title" {{ if $featured }}style="font-size: 2.5rem; letter-spacing: -0.03em;"{{ end }}><a href="{{ $page.RelPermalink }}">{{ $page.Title }}</a></h2>
+        <h2 class="post-title" {{ if $featured }}style="font-size: 2.5rem; letter-spacing: -0.03em;"{{ end }}><a href="{{ $page.Permalink }}">{{ $page.Title }}</a></h2>
         {{ if not $image }}
         <p class="post-excerpt" {{ if $featured }}style="font-size: 1.2rem; line-height: 1.6;"{{ end }}>
             {{ $page.Content | plainify | truncate $textOnlyLen }}
         </p>
         {{ end }}
         <div class="post-footer" {{ if $featured }}style="margin-top: 1.5rem; width: 100%;"{{ end }}>
-            <a href="{{ $page.RelPermalink }}" class="btn" style="border:none; padding-left:0; color:{{ if $featured }}var(--text-main){{ else }}var(--accent){{ end }};{{ if $featured }} font-weight: 700;{{ end }}">
+            <a href="{{ $page.Permalink }}" class="btn" style="border:none; padding-left:0; color:{{ if $featured }}var(--text-main){{ else }}var(--accent){{ end }};{{ if $featured }} font-weight: 700;{{ end }}">
                 {{ if $featured }}Read Full Story →{{ else }}Read Article →{{ end }}
             </a>
             <div class="post-actions" {{ if $featured }}style="margin-left: auto;"{{ end }}>
@@ -57,7 +57,7 @@
                     data-title="{{ $page.Title }}" 
                     data-date="{{ $page.Date.Format "Jan 02, 2006" }}"
                     data-summary="{{ $page.Summary | plainify | truncate 120 }}"
-                    {{ if $image }}data-image="{{ $image.RelPermalink }}"{{ end }}
+                    {{ if $image }}data-image="{{ $image.Permalink }}"{{ end }}
                     aria-label="Save for later">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
                 </button>

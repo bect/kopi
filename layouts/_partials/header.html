@@ -4,22 +4,25 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
 
-        <a href="{{ .Site.Home.RelPermalink }}" class="logo">{{ .Site.Title }}</a>
+        <a href="{{ .Site.Home.Permalink }}" class="logo">{{ .Site.Title }}</a>
 
         <nav>
             <ul class="nav-links" id="navLinks">
+                {{ $currentPage := . }}
                 {{ range .Site.Menus.main }}
+                    {{ $active := or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}
+                    {{ $activeClass := cond $active "active" "" }}
                     {{ if .HasChildren }}
                     <li class="dropdown">
-                        <a href="{{ .URL }}" class="dropdown-toggle">{{ .Name }}</a> 
+                        <a href="{{ if .Page }}{{ .Page.Permalink }}{{ else }}{{ .URL }}{{ end }}" class="dropdown-toggle {{ $activeClass }}">{{ .Name }}</a>
                         <ul class="dropdown-menu">
                             {{ range .Children }}
-                            <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+                            <li><a href="{{ if .Page }}{{ .Page.Permalink }}{{ else }}{{ .URL }}{{ end }}" class="{{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }}">{{ .Name }}</a></li>
                             {{ end }}
                         </ul>
                     </li>
                     {{ else }}
-                    <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+                    <li><a href="{{ if .Page }}{{ .Page.Permalink }}{{ else }}{{ .URL }}{{ end }}" class="{{ $activeClass }}">{{ .Name }}</a></li>
                     {{ end }}
                 {{ end }}
             </ul>

@@ -26,12 +26,12 @@
 {{ partial "head/json-ld.html" . }}
 
 {{ $css := resources.Get "css/main.scss" | toCSS | minify | fingerprint }}
-<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+<link rel="stylesheet" href="{{ $css.Permalink }}">
 
 {{ $js := resources.Get "js/main.js" | js.Build (dict "minify" true) | fingerprint }}
-<script type="module" src="{{ $js.RelPermalink }}"></script>
+<script type="module" src="{{ $js.Permalink }}"></script>
 
-{{ $swOpts := dict "css" $css.RelPermalink "js" $js.RelPermalink }}
+{{ $swOpts := dict "css" $css.Permalink "js" $js.Permalink }}
 {{ $sw := resources.Get "js/sw.js" | resources.ExecuteAsTemplate "/sw.js" $swOpts | js.Build (dict "minify" true) }}
 <!-- make sure hugo compiles and includes it in the output folder
     {{ dict "serviceWorker" $sw.Permalink }} -->

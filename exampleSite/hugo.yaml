@@ -1,14 +1,15 @@
-baseURL: 'http://example.com/'
+baseURL: 'https://bect.github.io/kopi/'
+relativeURLs: true
 languageCode: 'en-US'
 title: 'Kopi'
 theme: 'kopi'
 params:
-  subtitle: 'Hanya Catatan Seorang cah Nggunung'
+  subtitle: 'A modern, fast, and responsive Hugo theme'
   author:
-    name: "Bect"
-    bio: "Menulis tentang web, kode, dan pengalaman belajar sehari-hari."
-    link: "#"
-    role: "Cah Nggunung"
+    name: "Kopi Author"
+    bio: "Passionate about web development, open source, and creating fast user experiences."
+    link: "/about"
+    role: "Theme Developer"
 
 menus:
   main:
@@ -21,7 +22,7 @@ menus:
       weight: 20
     - name: 'Hugo'
       parent: 'topics'
-      url: '/hugo'
+      pageRef: '/hugo'
       weight: 10
     - name: 'About'
       url: '#'

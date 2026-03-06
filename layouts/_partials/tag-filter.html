@@ -1,8 +1,8 @@
 <!-- Tag Filter Bar -->
 <div class="tag-scroll-container" id="tagFilters">
-    <a href="{{ .Site.Home.RelPermalink }}" class="filter-btn {{ if .IsHome }}active{{ end }}">All</a>
-    {{ $currentPermalink := .RelPermalink }}
+    <a href="{{ .Site.Home.Permalink }}" class="filter-btn {{ if .IsHome }}active{{ end }}">All</a>
+    {{ $currentPermalink := .Permalink }}
     {{ range first 10 .Site.Taxonomies.tags.ByCount }}
-    <a href="{{ .Page.RelPermalink }}" class="filter-btn {{ if eq .Page.RelPermalink $currentPermalink }}active{{ end }}">{{ .Page.Title }} <span class="tag-count">{{ .Count }}</span></a>
+    <a href="{{ .Page.Permalink }}" class="filter-btn {{ if eq .Page.Permalink $currentPermalink }}active{{ end }}">{{ .Page.Title }} <span class="tag-count">{{ .Count }}</span></a>
     {{ end }}
 </div>

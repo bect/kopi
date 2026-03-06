@@ -36,7 +36,7 @@
                 <div class="article-tags">
                     <strong>Tags:</strong>
                     {{ range . }}
-                    <a href="{{ .RelPermalink }}" class="tag-pill">{{ .LinkTitle }}</a>
+                    <a href="{{ .Permalink }}" class="tag-pill">{{ .LinkTitle }}</a>
                     {{ end }}
                 </div>
                 {{ end }}
@@ -48,7 +48,7 @@
                             data-title="{{ .Title }}" 
                             data-date="{{ .Date.Format "Jan 02, 2006" }}"
                             data-summary="{{ .Summary | plainify | truncate 120 }}"
-                            {{ $image := partial "func/GetImage.html" . }}{{ if $image }}data-image="{{ $image.RelPermalink }}"{{ end }}
+                            {{ $image := partial "func/GetImage.html" . }}{{ if $image }}data-image="{{ $image.Permalink }}"{{ end }}
                             aria-label="Save to Library">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
                             <span class="action-label">Save to Library</span>
@@ -73,13 +73,13 @@
         <nav class="post-navigation">
             {{ $pages := .Site.RegularPages }}
             {{ with $pages.Prev . }}
-            <a href="{{ .RelPermalink }}" class="nav-link prev">
+            <a href="{{ .Permalink }}" class="nav-link prev">
                 <span class="nav-label">← Previous</span>
                 <span class="nav-title">{{ .Title }}</span>
             </a>
             {{ end }}
             {{ with $pages.Next . }}
-            <a href="{{ .RelPermalink }}" class="nav-link next">
+            <a href="{{ .Permalink }}" class="nav-link next">
                 <span class="nav-label">Next →</span>
                 <span class="nav-title">{{ .Title }}</span>
             </a>

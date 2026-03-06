@@ -18,10 +18,10 @@
             <div class="widget-recent-post-item {{ if not $image }}no-image{{ end }}">
                 {{ if $image }}
                     {{ $thumb := $image.Resize "120x webp" }}
-                    <img src="{{ $thumb.RelPermalink }}" alt="{{ .Title }}" loading="lazy" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}">
+                    <img src="{{ $thumb.Permalink }}" alt="{{ .Title }}" loading="lazy" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}">
                 {{ end }}
                 <div class="widget-recent-post-content">
-                    <a href="{{ .RelPermalink }}" class="widget-recent-post-title">{{ .Title }}</a>
+                    <a href="{{ .Permalink }}" class="widget-recent-post-title">{{ .Title }}</a>
                     <span class="widget-recent-post-date">{{ .Date.Format "Jan 02, 2006" }}</span>
                 </div>
             </div>
@@ -33,7 +33,7 @@
         <div class="widget-title">Explore Topics</div>
         <div class="widget-tags">
             {{ range first 20 .Site.Taxonomies.tags.ByCount }}
-            <a href="{{ .Page.RelPermalink }}" class="tag-pill">{{ .Page.Title }} <span class="tag-count">{{ .Count }}</span></a>
+            <a href="{{ .Page.Permalink }}" class="tag-pill">{{ .Page.Title }} <span class="tag-count">{{ .Count }}</span></a>
             {{ end }}
         </div>
     </div>

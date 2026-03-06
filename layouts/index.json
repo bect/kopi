@@ -2,7 +2,7 @@
 {{- range .Site.RegularPages -}}
     {{- $item := dict 
         "title" .Title 
-        "permalink" .RelPermalink 
+        "permalink" .Permalink 
         "date" (.Date.Format "Jan 02, 2006")
         "summary" (.Summary | plainify | truncate 100)
         "tags" .Params.tags
