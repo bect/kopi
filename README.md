@@ -1,12 +1,12 @@
 # Kopi Hugo Theme
 
-Kopi is a fast, multipurpose magazine style blog Hugo theme with a clean, 2-column layout. It's designed for performance and a smooth user experience, featuring dark mode and seamless page transitions powered by Turbo.
+Kopi is a high-performance Hugo theme featuring a sophisticated dark-mode aesthetic and a structured 2-column layout. Built for speed and seamless navigation, it utilizes Turbo for instant page transitions.
 
 [![Deploy Demo to GitHub Pages](https://github.com/bect/kopi/actions/workflows/deploy.yml/badge.svg)](https://github.com/bect/kopi/actions/workflows/deploy.yml)
 
 **[Live Demo](httpshttps://bect.github.io/kopi/)**
 
-![Theme Screenshot](https://raw.githubusercontent.com/bect/kopi/main/images/screenshot.png)
+[![Theme Screenshot](https://raw.githubusercontent.com/bect/kopi/main/images/screenshot.png)](httpshttps://bect.github.io/kopi/)
 
 ## Features
 

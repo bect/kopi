@@ -1,7 +1,7 @@
 name = "kopi"
 license = "MIT"
 licenselink = "https://github.com/bect/kopi/blob/main/LICENSE"
-description = "A fast, multipurpose magazine style blog Hugo theme with a clean, 2-column layout. It's designed for performance and a smooth user experience, featuring dark mode and seamless page transitions powered by Turbo."
+description = "Kopi is a high-performance Hugo theme featuring a sophisticated dark-mode aesthetic and a structured 2-column layout. Built for speed and seamless navigation, it utilizes Turbo for instant page transitions."
 
 # The home page of the theme, where the source can be found.
 homepage = "https://github.com/bect/kopi"
