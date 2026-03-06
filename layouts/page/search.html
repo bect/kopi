@@ -9,7 +9,8 @@
             <h1 class="post-title search-title">{{ .Title }}</h1>
             
             <div class="search-wrapper">
-                {{ $worker := resources.Get "js/workers/search-worker.js" | resources.Minify | resources.Fingerprint }}
+                {{ $workerOpts := dict "searchIndex" ("index.json" | absURL) }}
+                {{ $worker := resources.Get "js/workers/search-worker.js" | resources.ExecuteAsTemplate "js/workers/search-worker.js" $workerOpts | resources.Minify | resources.Fingerprint }}
                 <div class="search-box">
                     <input type="text" id="searchInput" placeholder="Type to search..." data-worker-url="{{ $worker.Permalink }}" autocomplete="off">
                     <button type="button" aria-label="Search">

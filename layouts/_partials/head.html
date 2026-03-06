@@ -3,7 +3,8 @@
 <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Summary }}{{ end }}">
 <title>{{ if .IsHome }}{{ .Site.Title }} - {{.Site.Params.subtitle}} {{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
 <link rel="canonical" href="{{ .Permalink }}">
-<link rel="manifest" href="{{ "manifest.json" | relURL }}">
+<link rel="manifest" href="{{ "manifest.json" | absURL }}">
+<link rel="icon" href="{{ "favicon.ico" | absURL }}">
 
 <!-- Theme Color -->
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
@@ -28,11 +29,11 @@
 {{ $css := resources.Get "css/main.scss" | toCSS | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $css.Permalink }}">
 
-{{ $js := resources.Get "js/main.js" | js.Build (dict "minify" true) | fingerprint }}
+{{ $js := resources.Get "js/main.js" | js.Build (dict "minify" true "params" (dict "swPath" ("sw.js" | relURL) "swScope" (site.BaseURL | replaceRE "^https?://[^/]+" "" ) "radioConfigPath" ("radio.json" | relURL))) | fingerprint }}
 <script type="module" src="{{ $js.Permalink }}"></script>
 
 {{ $swOpts := dict "css" $css.Permalink "js" $js.Permalink }}
-{{ $sw := resources.Get "js/sw.js" | resources.ExecuteAsTemplate "/sw.js" $swOpts | js.Build (dict "minify" true) }}
+{{ $sw := resources.Get "js/sw.js" | resources.ExecuteAsTemplate "sw.js" $swOpts | js.Build (dict "minify" true "targetPath" "sw.js") }}
 <!-- make sure hugo compiles and includes it in the output folder
     {{ dict "serviceWorker" $sw.Permalink }} -->
 

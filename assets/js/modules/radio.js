@@ -1,10 +1,10 @@
-export async function initRadio() {
+export async function initRadio(configPath) {
     const radioWidget = document.getElementById('radioWidget');
     if (!radioWidget || radioWidget.dataset.initialized) return;
 
     let stations = [];
     try {
-        const response = await fetch('/radio.json');
+        const response = await fetch(configPath);
         if (!response.ok) throw new Error('Radio config missing');
         stations = await response.json();
     } catch (error) {

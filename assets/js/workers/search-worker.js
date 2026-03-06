@@ -5,7 +5,7 @@ self.onmessage = async function(e) {
 
     if (type === 'init') {
         try {
-            const response = await fetch('/index.json');
+            const response = await fetch('{{ .searchIndex }}');
             searchIndex = await response.json();
             self.postMessage({ type: 'ready' });
         } catch (error) {

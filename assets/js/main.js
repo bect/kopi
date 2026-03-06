@@ -7,14 +7,15 @@ import { initBookmark } from './modules/bookmark.js';
 import { initPWA } from './modules/pwa.js';
 import { initPrefetch } from './modules/prefetch.js';
 import './external/turbo.es2017-umd.js';
+import * as params from '@params';
 
 document.addEventListener('turbo:load', () => {
     initNavigation();
     initTheme();
-    initRadio();
+    initRadio(params.radioConfigPath);
     initInteractions();
     initSearch();
     initBookmark();
-    initPWA();
+    initPWA(params.swPath, params.swScope);
     initPrefetch();
 });

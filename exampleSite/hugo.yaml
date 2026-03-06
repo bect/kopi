@@ -1,5 +1,4 @@
 baseURL: 'https://bect.github.io/kopi/'
-relativeURLs: true
 languageCode: 'en-US'
 title: 'Kopi'
 theme: 'kopi'

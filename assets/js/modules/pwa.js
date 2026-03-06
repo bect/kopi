@@ -1,5 +1,10 @@
-export function initPWA() {
+export function initPWA(swPath, scope) {
     if (!('serviceWorker' in navigator)) return;
+
+    if (window.isSecureContext === false) {
+        console.warn('PWA: Service Worker registration skipped because the context is not secure.');
+        return;
+    }
 
     let refreshing;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
@@ -8,7 +13,7 @@ export function initPWA() {
         refreshing = true;
     });
 
-    navigator.serviceWorker.register('/sw.js', { scope: '/' }).then(reg => {
+    navigator.serviceWorker.register(swPath, { scope: scope }).then(reg => {
         reg.addEventListener('updatefound', () => {
             const newWorker = reg.installing;
             if (newWorker) {
@@ -20,7 +25,14 @@ export function initPWA() {
                 });
             }
         });
-    }).catch(err => console.error('Service Worker registration failed:', err));
+    }).catch(err => {
+        // Handle Firefox Private Browsing or other security restrictions gracefully
+        if (err.name === 'SecurityError' || err.message.includes('insecure')) {
+            console.warn('PWA: Service Workers are disabled in this context (e.g., Private Browsing).');
+        } else {
+            console.error(`Service Worker registration failed for ${swPath}:`, err);
+        }
+    });
 }
 
 function showUpdateToast(worker) {
