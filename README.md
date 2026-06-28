@@ -10,7 +10,6 @@ Kopi is a high-performance Hugo theme featuring a sophisticated dark-mode aesthe
 
 ## Features
 
-- **Modern & Fast**: Built with performance in mind.
 - **Responsive Design**: Looks great on desktops, tablets, and mobile devices.
 - **Dark Mode**: Automatic dark mode based on user's system preference.
 - **Turbo Navigation**: Near-instant page loads for a fluid browsing experience.

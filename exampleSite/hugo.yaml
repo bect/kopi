@@ -9,6 +9,14 @@ params:
     bio: "Passionate about web development, open source, and creating fast user experiences."
     link: "/about"
     role: "Theme Developer"
+  manifest:
+    name: 'Kopi Theme'
+    short_name: 'Kopi'
+    start_url: '/'
+    display: 'standalone'
+    background_color: '#ffffff'
+    theme_color: '#2563eb'
+    icon: 'images/icon.png'
 
 menus:
   main:

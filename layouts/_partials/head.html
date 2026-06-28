@@ -3,7 +3,34 @@
 <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Summary }}{{ end }}">
 <title>{{ if .IsHome }}{{ .Site.Title }} - {{.Site.Params.subtitle}} {{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
 <link rel="canonical" href="{{ .Permalink }}">
-<link rel="manifest" href="{{ "manifest.json" | absURL }}">
+{{ $manifestOpts := dict 
+    "name" (default .Site.Params.manifest.name .Site.Title)
+    "short_name" (default .Site.Params.manifest.short_name .Site.Title)
+    "start_url" (default .Site.Params.manifest.start_url "/")
+    "display" (default .Site.Params.manifest.display "standalone")
+    "background_color" (default .Site.Params.manifest.background_color "#ffffff")
+    "theme_color" (default .Site.Params.manifest.theme_color "#2563eb")
+}}
+{{ $manifestIcons := slice }}
+{{ with .Site.Params.manifest.icon }}
+    {{ $iconPath := strings.TrimPrefix "/" . }}
+    {{ $iconResource := resources.GetMatch $iconPath }}
+    {{ if not $iconResource }}
+        {{ $iconResource = resources.GetMatch (printf "/%s" $iconPath) }}
+    {{ end }}
+    {{ if $iconResource }}
+        {{ range $size := slice 48 72 96 144 192 512 }}
+            {{ $resized := $iconResource.Resize (printf "%vx%v" $size $size) }}
+            {{ $manifestIcons = $manifestIcons | append (dict "src" $resized.RelPermalink "sizes" (printf "%vx%v" $size $size) "type" "image/png") }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+{{ if not $manifestIcons }}
+    {{ $manifestIcons = default .Site.Params.manifest.icons (slice (dict "src" "/icon-192.png" "sizes" "192x192" "type" "image/png") (dict "src" "/icon-512.png" "sizes" "512x512" "type" "image/png")) }}
+{{ end }}
+{{ $manifestOpts = merge $manifestOpts (dict "icons" $manifestIcons) }}
+{{ $manifest := resources.Get "manifest.json" | resources.ExecuteAsTemplate "manifest.json" $manifestOpts | resources.Minify | fingerprint }}
+<link rel="manifest" href="{{ $manifest.Permalink }}">
 <link rel="icon" href="{{ "favicon.ico" | absURL }}">
 
 <!-- Theme Color -->
