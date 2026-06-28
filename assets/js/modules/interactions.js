@@ -130,7 +130,11 @@ export function initInteractions() {
         localStorage.setItem('cookiesAccepted', 'true');
         showToast('Cookies accepted.');
     });
-    document.getElementById('btnDeclineCookies')?.addEventListener('click', () => cookieBanner.classList.remove('show'));
+    document.getElementById('btnDeclineCookies')?.addEventListener('click', () => {
+        cookieBanner.classList.remove('show');
+        localStorage.setItem('cookiesAccepted', 'false');
+        showToast('Cookies declined.');
+    });
 
     // Comment Form
     const commentForm = document.querySelector('.comment-form');
